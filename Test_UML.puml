@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Card
+class MonsterCard
+class MagicCard
+class User
+class Stack
+class Package
+
+Card <|-- MonsterCard
+Card <|-- MagicCard
+
+User ||--|| Stack
+Card }o--o| Stack
+Card }o--o| Package
+
+class Card{
+    -string name
+    -static int damage
+    -string elementType
+}
+class MonsterCard{
+    -string attribute
+}
+class MagicCard{
+    -string effect
+}
+class User{
+    -string username
+    -string password
+    -int coins = 20
+    -Card deck[4]
+}
+class Stack{
+    -List<Card> cardsInStack
+}
+class Package{
+    -Card cardsInPackage[5]
+}
+@enduml
