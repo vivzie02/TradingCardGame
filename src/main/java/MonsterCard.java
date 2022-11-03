@@ -6,7 +6,13 @@ public class MonsterCard extends Card{
         GOBLIN, DRAGON, WIZARD, ORK, KNIGHT, KRAKEN, ELF
     }
 
-    public MonsterCard() {
+    public MonsterCard(String name, String elementType, int damage) {
+        this.name = name;
+        this.elementType = elementType;
+        this.damage = damage;
+    }
+
+    public Card randomizeCard(){
         int rand = (int) (Math.random() * 7);
         this.name = names.values()[rand].toString();
 
@@ -16,5 +22,6 @@ public class MonsterCard extends Card{
         rand = (int) ((Math.random() * 100) + 1);
         this.damage = rand;
 
+        return this;
     }
 }

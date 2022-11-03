@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Battle {
     public boolean fight(User player1, User player2){
         int rand1 = ((int) (Math.random() * player1.getDeck().size()));
@@ -14,11 +16,17 @@ public class Battle {
         }
 
         if(player1.getDeck().isEmpty()){
-            System.out.printf("\nPlayer 2 wins");
+            System.out.printf("\n" + player2.getUsername() + " wins\n");
+            player1.setElo(10);
+            player2.setElo(-5);
+            DatabaseAccess.updateElo(player2, player1);
             return false;
         }
         if(player2.getDeck().isEmpty()){
-            System.out.printf("\nPlayer 1 wins");
+            System.out.printf("\n" + player1.getUsername() + " wins\n");
+            player1.setElo(-5);
+            player2.setElo(10);
+            DatabaseAccess.updateElo(player1, player2);
             return false;
         }
         return true;
@@ -56,9 +64,9 @@ public class Battle {
     }
 
     public void mixedBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){
-        System.out.printf("PlayerA: " + card1.getElementType() + " " + card1.getName() +
+        System.out.printf(player1.getUsername() + " " + card1.getElementType() + " " + card1.getName() +
                 " (" + card1.getDamage() + ")");
-        System.out.printf(" vs. PlayerB " + card2.getElementType() + " " + card2.getName() +
+        System.out.printf(" vs. " + player2.getUsername() + " " + card2.getElementType() + " " + card2.getName() +
                 " (" + card2.getDamage() + ")");
 
         double ratio = effectiveness(card1.getElementType(), card2.getElementType());
@@ -124,6 +132,36 @@ public class Battle {
             player2.getDeck().add(test);
         } else {
             System.out.printf(" => Draw");
+        }
+    }
+
+    public void startBattle(User player1){
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        if(player1.getDeck().size() < 4){
+            System.out.println("Your deck contains too few cards");
+            return;
+        }
+        System.out.println("Login second Player");
+        User player2 = null;
+        while(player2 == null){
+            player2 = DatabaseAccess.loginUser();
+        }
+
+        player2.deckSelect();
+
+        if(player2.getDeck().size() < 4){
+            System.out.println("second players deck is too small");
+            return;
+        }
+
+        int counter = 0;
+        while(fight(player1, player2)){
+            System.out.printf("\n");
+            counter++;
+            if(counter > 99){
+                System.out.printf("Draw\n");
+                break;
+            }
         }
     }
 }

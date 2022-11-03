@@ -1,25 +1,30 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class User {
     private String username;
-    private String password;
-    private int coins = 20;
+    private int coins;
     private List<Card> deck = new ArrayList<Card>();
-    private int elo = 100;
-    private Stack cardsInStack;
+    private int elo;
+    private List<Card> cardsInStack = new ArrayList<>();
+    private int id;
 
-    public User(String username, String password) {
+    public User(String username, int coins, int id, int elo) {
         this.username = username;
-        this.password = password;
+        this.coins = coins;
+        this.id = id;
+        this.elo = elo;
     }
+
+    public int getId(){ return id; }
 
     public int getElo() {
         return elo;
     }
 
-    public void setElo(int elo) {
-        this.elo = elo;
+    public void setElo(int score) {
+        this.elo = (this.elo - (score));
     }
 
     public String getUsername() {
@@ -30,39 +35,56 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public int getCoins() {
         return coins;
     }
 
-    public void setCoins(int coins) {
-        this.coins = coins;
+    public void spendCoins() {
+        this.coins = coins - 5;
     }
 
     public List<Card> getDeck() {
         return deck;
     }
 
-    public void setDeck() {
-        int numberOfMonsters = ((int) (Math.random() * 5));
-        for(int i = 0; i < numberOfMonsters; i++){
-            this.deck.add(new MonsterCard());
+    public void deckSelect(){
+        if(cardsInStack == null){
+            System.out.println("You don't have any cards, buy some from the shop");
+            return;
         }
-        for(int j = numberOfMonsters; j < 4; j++){
-            this.deck.add(new MagicCard());
+        System.out.println("Here are all your cards:");
+        int id = 1;
+        for (Card card : cardsInStack) {
+            System.out.print(id + " | ");
+            System.out.println(card.getName() + " | " + card.getElementType() + " | " + card.getDamage());
+            id++;
+        }
+        if(cardsInStack.size() < 4){
+            System.out.println("can't build a deck yet");
+            return;
+        }
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("select your cards:");
+        List<Integer> selected = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            int option = myObj.nextInt();  // Read user input
+            if(selected.contains(option)){
+                System.out.println("already selected");
+                i--;
+            }else {
+                selected.add(option);
+                this.deck.add(this.cardsInStack.get(option-1));
+            }
         }
 
-        System.out.println(this.username + "´s deck:");
-        this.getDeck().forEach((card -> {
-            System.out.println(card.getElementType() + " " + card.getName());
-        }));
-        System.out.println("");
+        System.out.println("your deck is now: ");
+        for (Card card : deck) {
+            System.out.print(id + " | ");
+            System.out.println(card.getName() + " | " + card.getElementType() + " | " + card.getDamage());
+        }
+    }
+
+    public void addToStack(Card addedCard){
+        this.cardsInStack.add(addedCard);
     }
 }
