@@ -1,3 +1,5 @@
+package at.fhtw.swen1.mcg.dto;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

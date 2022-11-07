@@ -1,3 +1,7 @@
+package at.fhtw.swen1.mcg.dto;
+
+import at.fhtw.swen1.mcg.persistence.UserRepository;
+
 import java.util.Scanner;
 
 public class Battle {
@@ -19,14 +23,14 @@ public class Battle {
             System.out.printf("\n" + player2.getUsername() + " wins\n");
             player1.setElo(10);
             player2.setElo(-5);
-            DatabaseAccess.updateElo(player2, player1);
+            UserRepository.updateElo(player2, player1);
             return false;
         }
         if(player2.getDeck().isEmpty()){
             System.out.printf("\n" + player1.getUsername() + " wins\n");
             player1.setElo(-5);
             player2.setElo(10);
-            DatabaseAccess.updateElo(player1, player2);
+            UserRepository.updateElo(player1, player2);
             return false;
         }
         return true;
@@ -144,7 +148,7 @@ public class Battle {
         System.out.println("Login second Player");
         User player2 = null;
         while(player2 == null){
-            player2 = DatabaseAccess.loginUser();
+            player2 = UserRepository.loginUser();
         }
 
         player2.deckSelect();

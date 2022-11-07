@@ -1,3 +1,5 @@
+package at.fhtw.swen1.mcg.dto;
+
 import java.lang.Math;
 
 public class MonsterCard extends Card{

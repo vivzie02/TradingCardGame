@@ -1,7 +1,9 @@
-abstract class Card {
+package at.fhtw.swen1.mcg.dto;
+
+abstract public class Card {
 
     public enum types{
-        WATER, FIRE, REGULAR;
+        WATER, FIRE, REGULAR
     }
     protected String name;
     protected int damage;

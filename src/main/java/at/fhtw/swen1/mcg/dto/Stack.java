@@ -1,3 +1,5 @@
+package at.fhtw.swen1.mcg.dto;
+
 import java.util.*;
 
 public class Stack {

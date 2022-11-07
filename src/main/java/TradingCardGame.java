@@ -1,5 +1,7 @@
-import javax.xml.crypto.Data;
-import java.sql.*;
+import at.fhtw.swen1.mcg.dto.Battle;
+import at.fhtw.swen1.mcg.dto.User;
+import at.fhtw.swen1.mcg.persistence.UserRepository;
+
 import java.util.Scanner;
 
 public class TradingCardGame {
@@ -10,7 +12,7 @@ public class TradingCardGame {
             System.out.println("Choose option: Create new user(c), login(l)");
             String option = myObj.nextLine();  // Read user input
             if(option.equals("c")){
-                DatabaseAccess.createUser();
+                UserRepository.createUser();
             }else if(option.equals("l")){
                 break;
             }
@@ -20,7 +22,7 @@ public class TradingCardGame {
         }
         User player1 = null;
         while(player1 == null){
-            player1 = DatabaseAccess.loginUser();
+            player1 = UserRepository.loginUser();
         }
         Battle rounds = new Battle();
 
@@ -34,7 +36,7 @@ public class TradingCardGame {
             } else if (option.equals("d")) {
                 player1.deckSelect();
             } else if (option.equals("s")) {
-                player1 = DatabaseAccess.shop(player1);
+                player1 = UserRepository.shop(player1);
             }else {
                 System.out.println("invalid input");
             }

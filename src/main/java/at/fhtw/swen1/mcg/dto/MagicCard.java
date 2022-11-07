@@ -1,3 +1,5 @@
+package at.fhtw.swen1.mcg.dto;
+
 public class MagicCard extends Card{
     public MagicCard(String elementType, int damage) {
         this.name = "Spell";
