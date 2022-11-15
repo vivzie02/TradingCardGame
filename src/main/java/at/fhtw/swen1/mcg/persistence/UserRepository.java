@@ -1,6 +1,4 @@
 package at.fhtw.swen1.mcg.persistence;
-
-
 import at.fhtw.swen1.mcg.dto.Card;
 import at.fhtw.swen1.mcg.dto.MagicCard;
 import at.fhtw.swen1.mcg.dto.MonsterCard;
@@ -12,10 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public interface UserRepository {
-
-    List<User> findAll();
-    void insert(User user);
-
     static void createUser(){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 
@@ -134,17 +128,21 @@ public interface UserRepository {
             return null;
         }
 
+        int numberOfCards = CardRepository.getNumberOfCards(player1);
+
         System.out.println("Cards bought: ");
         int numberOfMonsters = ((int) (Math.random() * 5));
         for(int i = 0; i < numberOfMonsters; i++){
-            newCard = (new MonsterCard("", "", 0).randomizeCard());
+            newCard = (new MonsterCard("", "", 0, numberOfCards).randomizeCard());
             player1.addToStack(newCard);
             CardRepository.saveCard(newCard, player1);
+            numberOfCards++;
         }
         for(int j = numberOfMonsters; j < 4; j++){
-            newCard = (new MagicCard("", 0).randomizeCard());
+            newCard = (new MagicCard("", 0, numberOfCards).randomizeCard());
             player1.addToStack(newCard);
             CardRepository.saveCard(newCard, player1);
+            numberOfCards++;
         }
         return player1;
     }

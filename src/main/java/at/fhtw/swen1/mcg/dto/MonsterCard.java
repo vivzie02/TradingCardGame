@@ -8,10 +8,11 @@ public class MonsterCard extends Card{
         GOBLIN, DRAGON, WIZARD, ORK, KNIGHT, KRAKEN, ELF
     }
 
-    public MonsterCard(String name, String elementType, int damage) {
+    public MonsterCard(String name, String elementType, int damage, int cardID){
         this.name = name;
         this.elementType = elementType;
         this.damage = damage;
+        this.cardID = cardID;
     }
 
     public Card randomizeCard(){

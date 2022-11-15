@@ -1,4 +1,5 @@
 package at.fhtw.swen1.mcg.dto;
+import at.fhtw.swen1.mcg.persistence.DeckRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,16 +55,16 @@ public class User {
             System.out.println("You don't have any cards, buy some from the shop");
             return;
         }
+        if(cardsInStack.size() < 4){
+            System.out.println("can't build a deck yet");
+            return;
+        }
         System.out.println("Here are all your cards:");
         int id = 1;
         for (Card card : cardsInStack) {
             System.out.print(id + " | ");
             System.out.println(card.getName() + " | " + card.getElementType() + " | " + card.getDamage());
             id++;
-        }
-        if(cardsInStack.size() < 4){
-            System.out.println("can't build a deck yet");
-            return;
         }
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println("select your cards:");
@@ -79,7 +80,8 @@ public class User {
             }
         }
 
-        System.out.println("your deck is now: ");
+        System.out.println("your new deck contains: ");
+        DeckRepository.createDeck(this, deck);
         for (Card card : deck) {
             System.out.print(id + " | ");
             System.out.println(card.getName() + " | " + card.getElementType() + " | " + card.getDamage());

@@ -1,12 +1,14 @@
 package at.fhtw.swen1.mcg.dto;
 
 public class MagicCard extends Card{
-    public MagicCard(String elementType, int damage) {
+    public MagicCard(String elementType, int damage, int cardID) {
         this.name = "Spell";
 
         this.elementType = elementType;
 
         this.damage = damage;
+
+        this.cardID = cardID;
     }
 
     public Card randomizeCard(){
