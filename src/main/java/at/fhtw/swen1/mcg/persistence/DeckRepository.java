@@ -11,13 +11,10 @@ import java.util.List;
 
 public interface DeckRepository {
     static void createDeck(User player1, List<Card> deck){
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO decks
-                (user_id, card1_id, card2_id, card3_id, card4_id)
+                (user_id, card1, card2, card3, card4)
                 VALUES (?,?,?,?,?);
             """ )
         ){

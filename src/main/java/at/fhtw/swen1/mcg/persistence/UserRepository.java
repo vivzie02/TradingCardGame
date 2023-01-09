@@ -22,10 +22,7 @@ public interface UserRepository {
         String salt = BCrypt.gensalt(12);
         String hashPassword = BCrypt.hashpw(password, salt);
 
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO users
                 (username, password, salt, coins, elo)
@@ -56,10 +53,7 @@ public interface UserRepository {
 
         User player;
 
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM users
                 WHERE username=?
@@ -108,10 +102,7 @@ public interface UserRepository {
         }
         player1.spendCoins();
 
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
                 SET coins=?
@@ -148,10 +139,7 @@ public interface UserRepository {
     }
 
     static void updateElo(User winner, User loser){
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
                 SET elo=?
@@ -167,10 +155,7 @@ public interface UserRepository {
             System.out.println(ex);
         }
 
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
                 SET elo=?

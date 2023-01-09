@@ -76,10 +76,7 @@ public interface CardRepository {
     }
 
     static int getNumberOfCards(User player1){
-        try(Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres",
-                "test123");
+        try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM cards
             """ )
