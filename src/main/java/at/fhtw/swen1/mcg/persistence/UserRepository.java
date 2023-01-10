@@ -4,20 +4,30 @@ import at.fhtw.swen1.mcg.dto.MagicCard;
 import at.fhtw.swen1.mcg.dto.MonsterCard;
 import at.fhtw.swen1.mcg.dto.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-
 import java.sql.*;
-import java.util.List;
 import java.util.Scanner;
 
 public interface UserRepository {
-    static void createUser(){
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+    static int createUser(String username, String password){
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT * FROM users
+                WHERE username=?
+            """ )
+        ){
 
-        System.out.println("choose username:");
-        String username = myObj.nextLine();  // Read user input
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
 
-        System.out.println("choose password:");
-        String password = myObj.nextLine();  // Read user input
+            if(rs.next()){
+                return 1;
+            }
+
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return -1;
+        }
 
         String salt = BCrypt.gensalt(12);
         String hashPassword = BCrypt.hashpw(password, salt);
@@ -38,9 +48,12 @@ public interface UserRepository {
             statement.execute();
             System.out.println("at.fhtw.swen1.mcg.dto.User created successfully");
 
+            return 0;
+
         }
         catch (SQLException ex){
             System.out.println(ex);
+            return -1;
         }
     }
 
