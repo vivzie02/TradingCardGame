@@ -139,7 +139,7 @@ public class Battle {
         }
     }
 
-    public void startBattle(User player1){
+    /*public void startBattle(User player1){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         if(player1.getDeck().size() < 4){
             System.out.println("Your deck contains too few cards");
@@ -167,5 +167,5 @@ public class Battle {
                 break;
             }
         }
-    }
+    }*/
 }

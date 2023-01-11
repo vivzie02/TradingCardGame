@@ -57,13 +57,7 @@ public interface UserRepository {
         }
     }
 
-    static User loginUser(){
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Enter username:");
-        String username = myObj.nextLine();  // Read user input
-        System.out.println("Enter password:");
-        String password = myObj.nextLine();  // Read user input
-
+    static User loginUser(String username, String password){
         User player;
 
         try(Connection connection = DatabaseFactory.getConnection();
