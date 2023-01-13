@@ -20,10 +20,10 @@ public interface DeckRepository {
         ){
 
             statement.setInt(1, player1.getId());
-            statement.setInt(2, deck.get(0).getCardID());
-            statement.setInt(3, deck.get(1).getCardID());
-            statement.setInt(4, deck.get(2).getCardID());
-            statement.setInt(5, deck.get(3).getCardID());
+            statement.setString(2, deck.get(0).getCardID());
+            statement.setString(3, deck.get(1).getCardID());
+            statement.setString(4, deck.get(2).getCardID());
+            statement.setString(5, deck.get(3).getCardID());
             statement.execute();
 
         }

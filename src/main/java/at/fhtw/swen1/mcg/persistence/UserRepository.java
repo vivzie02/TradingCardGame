@@ -94,7 +94,7 @@ public interface UserRepository {
     }
 
     static User shop(User player1){
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        /*Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Purchase a pack? y/n (5 coins)");
         System.out.println("Available coins: " + player1.getCoins());
         String option = myObj.nextLine();  // Read user input
@@ -141,7 +141,7 @@ public interface UserRepository {
             player1.addToStack(newCard);
             CardRepository.saveCard(newCard, player1);
             numberOfCards++;
-        }
+        }*/
         return player1;
     }
 

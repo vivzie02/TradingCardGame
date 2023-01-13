@@ -5,13 +5,13 @@ abstract public class Card {
     public enum types{
         WATER, FIRE, REGULAR
     }
-    protected int cardID;
+    protected String cardID;
     protected String name;
-    protected int damage;
+    protected float damage;
     protected String elementType;
 
-    public void setCardID(int cardID){ this.cardID = cardID; }
-    public int getCardID(){ return cardID; }
+    public void setCardID(String cardID){ this.cardID = cardID; }
+    public String getCardID(){ return cardID; }
     public void setName(String name) {
         this.name = name;
     }
@@ -28,7 +28,7 @@ abstract public class Card {
         return elementType;
     }
 
-    public int getDamage() {
+    public float getDamage() {
         return damage;
     }
 

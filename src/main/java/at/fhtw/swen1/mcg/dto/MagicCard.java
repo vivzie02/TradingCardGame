@@ -1,8 +1,8 @@
 package at.fhtw.swen1.mcg.dto;
 
 public class MagicCard extends Card{
-    public MagicCard(String elementType, int damage, int cardID) {
-        this.name = "Spell";
+    public MagicCard(String elementType, float damage, String cardID) {
+        this.name = elementType + "Spell";
 
         this.elementType = elementType;
 
