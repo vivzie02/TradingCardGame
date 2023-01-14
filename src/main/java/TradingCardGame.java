@@ -1,5 +1,6 @@
 import at.fhtw.swen1.mcg.httpserver.server.Server;
 import at.fhtw.swen1.mcg.httpserver.service.cards.CardService;
+import at.fhtw.swen1.mcg.httpserver.service.deck.DeckService;
 import at.fhtw.swen1.mcg.httpserver.service.packages.PackageService;
 import at.fhtw.swen1.mcg.httpserver.service.sessions.SessionService;
 import at.fhtw.swen1.mcg.httpserver.service.transactions.TransactionService;
@@ -26,6 +27,7 @@ public class TradingCardGame {
         router.addService("/packages", new PackageService());
         router.addService("/transactions", new TransactionService());
         router.addService("/cards", new CardService());
+        router.addService("/deck", new DeckService());
 
         return router;
     }
