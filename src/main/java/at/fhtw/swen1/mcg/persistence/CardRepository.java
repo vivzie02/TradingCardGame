@@ -55,19 +55,19 @@ public interface CardRepository {
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO cards
-                (playerid, name, elementtype, damage, cardtype)
-                VALUES (?,?,?,?,?);
+                (cardid, playerid, name, elementtype, damage, cardtype)
+                VALUES (?,?,?,?,?,?);
             """ )
         ){
-
-            statement.setInt(1, player1.getId());
-            statement.setString(2, newCard.getName());
-            statement.setString(3, newCard.getElementType());
-            statement.setFloat(4, newCard.getDamage());
+            statement.setString(1, newCard.getCardID());
+            statement.setInt(2, player1.getId());
+            statement.setString(3, newCard.getName());
+            statement.setString(4, newCard.getElementType());
+            statement.setFloat(5, newCard.getDamage());
             if(newCard instanceof MonsterCard){
-                statement.setString(5, "MONSTER");
+                statement.setString(6, "MONSTER");
             }else {
-                statement.setString(5, "MAGIC");
+                statement.setString(6, "MAGIC");
             }
             statement.execute();
 
@@ -111,21 +111,58 @@ public interface CardRepository {
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO packages
-                (packageid, card1id, card2id, card3id, card4id, card5id)
+                (card1id, card2id, card3id, card4id, card5id, owner)
                 VALUES (?,?,?,?,?,?);
             """ )
         ){
-            statement.setString(1, admin.getUsername());
-            statement.setString(2, cardIds.get(0));
-            statement.setString(3, cardIds.get(1));
-            statement.setString(4, cardIds.get(2));
-            statement.setString(5, cardIds.get(3));
-            statement.setString(6, cardIds.get(4));
+            statement.setString(1, cardIds.get(0));
+            statement.setString(2, cardIds.get(1));
+            statement.setString(3, cardIds.get(2));
+            statement.setString(4, cardIds.get(3));
+            statement.setString(5, cardIds.get(4));
+            statement.setString(6, "admin");
             statement.execute();
         }
         catch (SQLException ex){
             System.out.println(ex);
             return -1;
+        }
+        return 0;
+    }
+
+    static int assignPackages(User player){
+        int id = 0;
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT packageid FROM packages
+                WHERE owner='admin'
+            """ )
+        ){
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                id = rs.getInt(1);
+            }
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return 0;
+        }
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                UPDATE packages
+                SET owner=?
+                WHERE packageid=?
+            """ )
+        ){
+
+            statement.setString(1, player.getUsername());
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
         }
         return 0;
     }

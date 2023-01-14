@@ -8,12 +8,10 @@ import at.fhtw.swen1.mcg.httpserver.server.Service;
 import at.fhtw.swen1.mcg.persistence.UserRepository;
 import org.json.JSONObject;
 
-import java.util.List;
-
-public class userService implements Service {
+public class UserService implements Service {
     @Override
     public Response handleRequest(Request request){
-        JSONObject body = userData.getUserData(request.getBody());
+        JSONObject body = UserData.getUserData(request.getBody());
         String username = body.get("Username").toString();
         String password = body.get("Password").toString();
 

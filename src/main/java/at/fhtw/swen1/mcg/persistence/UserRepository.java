@@ -35,8 +35,8 @@ public interface UserRepository {
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO users
-                (username, password, salt, coins, elo)
-                VALUES (?,?,?,?,?);
+                (username, password, salt, coins, elo, token)
+                VALUES (?,?,?,?,?,?);
             """ )
         ){
 
@@ -45,6 +45,7 @@ public interface UserRepository {
             statement.setString(3, salt);
             statement.setInt(4, 20);
             statement.setInt(5, 100);
+            statement.setString(6, "Basic " + username + "-mtcgToken");
             statement.execute();
             System.out.println("at.fhtw.swen1.mcg.dto.User created successfully");
 
@@ -93,19 +94,41 @@ public interface UserRepository {
         return null;
     }
 
-    static User shop(User player1){
-        /*Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Purchase a pack? y/n (5 coins)");
-        System.out.println("Available coins: " + player1.getCoins());
-        String option = myObj.nextLine();  // Read user input
-        Card newCard;
-        if(option.equals("n")){
-            return player1;
+    static User loginWithToken(String token){
+        User player;
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT * FROM users
+                WHERE token=?
+            """ )
+        ){
+
+            statement.setString(1, token);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                String username = rs.getString(2);
+                int coins = rs.getInt(5);
+                int playerID = rs.getInt(1);
+                int elo = rs.getInt(6);
+                player = new User(username, coins, playerID, elo);
+                player = CardRepository.getPlayersCards(username, playerID, player);
+                return player;
+            }
+
         }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return null;
+        }
+        return null;
+    }
+    static int shop(User player1){
 
         if(player1.getCoins() < 5){
             System.out.println("Not enough coins");
-            return player1;
+            return -1;
         }
         player1.spendCoins();
 
@@ -123,26 +146,12 @@ public interface UserRepository {
         }
         catch (SQLException ex){
             System.out.println(ex);
-            return null;
+            return 1;
         }
 
-        int numberOfCards = CardRepository.getNumberOfCards(player1);
+        CardRepository.assignPackages(player1);
 
-        System.out.println("Cards bought: ");
-        int numberOfMonsters = ((int) (Math.random() * 5));
-        for(int i = 0; i < numberOfMonsters; i++){
-            newCard = (new MonsterCard("", "", 0, numberOfCards).randomizeCard());
-            player1.addToStack(newCard);
-            CardRepository.saveCard(newCard, player1);
-            numberOfCards++;
-        }
-        for(int j = numberOfMonsters; j < 4; j++){
-            newCard = (new MagicCard("", 0, numberOfCards).randomizeCard());
-            player1.addToStack(newCard);
-            CardRepository.saveCard(newCard, player1);
-            numberOfCards++;
-        }*/
-        return player1;
+        return 0;
     }
 
     static void updateElo(User winner, User loser){

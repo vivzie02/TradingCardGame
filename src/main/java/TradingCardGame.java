@@ -1,8 +1,9 @@
 import at.fhtw.swen1.mcg.httpserver.server.Server;
-import at.fhtw.swen1.mcg.httpserver.service.packages.packageService;
-import at.fhtw.swen1.mcg.httpserver.service.sessions.sessionService;
+import at.fhtw.swen1.mcg.httpserver.service.packages.PackageService;
+import at.fhtw.swen1.mcg.httpserver.service.sessions.SessionService;
+import at.fhtw.swen1.mcg.httpserver.service.transactions.TransactionService;
 import at.fhtw.swen1.mcg.httpserver.utils.Router;
-import at.fhtw.swen1.mcg.httpserver.service.users.userService;
+import at.fhtw.swen1.mcg.httpserver.service.users.UserService;
 
 import java.io.IOException;
 
@@ -19,9 +20,10 @@ public class TradingCardGame {
     private static Router configureRouter()
     {
         Router router = new Router();
-        router.addService("/users", new userService());
-        router.addService("/sessions", new sessionService());
-        router.addService("/packages", new packageService());
+        router.addService("/users", new UserService());
+        router.addService("/sessions", new SessionService());
+        router.addService("/packages", new PackageService());
+        router.addService("/transactions", new TransactionService());
 
         return router;
     }

@@ -6,14 +6,14 @@ import at.fhtw.swen1.mcg.httpserver.http.HttpStatus;
 import at.fhtw.swen1.mcg.httpserver.server.Request;
 import at.fhtw.swen1.mcg.httpserver.server.Response;
 import at.fhtw.swen1.mcg.httpserver.server.Service;
-import at.fhtw.swen1.mcg.httpserver.service.users.userData;
+import at.fhtw.swen1.mcg.httpserver.service.users.UserData;
 import at.fhtw.swen1.mcg.persistence.UserRepository;
 import org.json.JSONObject;
 
-public class sessionService implements Service {
+public class SessionService implements Service {
     @Override
     public Response handleRequest(Request request){
-        JSONObject body = userData.getUserData(request.getBody());
+        JSONObject body = UserData.getUserData(request.getBody());
         String username = body.get("Username").toString();
         String password = body.get("Password").toString();
 
