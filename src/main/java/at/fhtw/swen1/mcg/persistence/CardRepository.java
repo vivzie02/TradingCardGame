@@ -132,6 +132,7 @@ public interface CardRepository {
 
     static int assignPackages(User player){
         int id = 0;
+        //get an available package
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -149,6 +150,10 @@ public interface CardRepository {
             return 0;
         }
 
+        System.out.println(id);
+
+        //assign package to buyer
+
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE packages
@@ -164,6 +169,55 @@ public interface CardRepository {
         catch (SQLException ex){
             System.out.println(ex);
         }
+
+
+        //get the ids of the purchased cards
+
+        List<String> cardIds = new ArrayList<>();
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT * FROM packages
+                WHERE packageid=?
+            """ )
+        ){
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                cardIds.add(rs.getString(2));
+                cardIds.add(rs.getString(3));
+                cardIds.add(rs.getString(4));
+                cardIds.add(rs.getString(5));
+                cardIds.add(rs.getString(6));
+            }
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return 0;
+        }
+
+        System.out.println(cardIds.toString());
+
+        //assign the purchased cards to the buyer
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                UPDATE cards
+                SET playerid=?
+                WHERE (cardid=? OR cardid=? OR cardid=? OR cardid=? OR cardid=?)
+            """ )
+        ){
+            statement.setInt(1, player.getId());
+            statement.setString(2, cardIds.get(0));
+            statement.setString(3, cardIds.get(1));
+            statement.setString(4, cardIds.get(2));
+            statement.setString(5, cardIds.get(3));
+            statement.setString(6, cardIds.get(4));
+            statement.executeUpdate();
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+        }
+
         return 0;
     }
 }
