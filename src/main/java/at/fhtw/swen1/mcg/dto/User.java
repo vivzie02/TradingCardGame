@@ -91,4 +91,8 @@ public class User {
     public void addToStack(Card addedCard){
         this.cardsInStack.add(addedCard);
     }
+
+    public List<Card> getCardsInStack(){
+        return this.cardsInStack;
+    }
 }
