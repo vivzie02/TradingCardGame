@@ -105,6 +105,16 @@ public class Battle {
                 || (card2.getName() == "Elf" && card2.getElementType() == "Fire"))) {
             System.out.printf(" => Elf can evade the dragon");
             return true;
+        } else if (((card1.getName() == "Robot" && card1.getDamage() < card2.getDamage())
+                || (card2.getName() == "Robot") && card2.getDamage() < card1.getDamage())
+                && (card1.getName() == "Knight" || card2.getName() == "Knight")) {
+            System.out.printf(" => Robot can not be killed by a sword");
+            return true;
+        } else if (((card1.getName() == "Robot" && card1.getDamage() > card2.getDamage())
+                || (card2.getName() == "Robot") && card2.getDamage() > card1.getDamage())
+                && (card1.getElementType() == "Water" || card2.getElementType() == "Water")) {
+            System.out.printf(" => Robot gets rusted by the water");
+            return true;
         }
         return false;
     }
@@ -162,9 +172,9 @@ public class Battle {
             }
         }
         if(player1.getDeck().isEmpty()){
-            return player2.getUsername() + "wins!";
+            return player2.getUsername() + " wins!";
         }else {
-            return player1.getUsername() + "wins!";
+            return player1.getUsername() + " wins!";
         }
     }
 }

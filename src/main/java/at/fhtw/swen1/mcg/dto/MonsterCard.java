@@ -5,7 +5,7 @@ import java.lang.Math;
 public class MonsterCard extends Card{
 
     private enum names{
-        Goblin, Dragon, Wizard, Ork, Knight, Kraken, Elf
+        Goblin, Dragon, Wizard, Ork, Knight, Kraken, Elf, Robot
     }
 
     public MonsterCard(String name, String elementType, float damage, String cardID){

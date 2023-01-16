@@ -1,5 +1,8 @@
 package at.fhtw.swen1.mcg.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 class BattleTest {
     @org.junit.jupiter.api.Test
@@ -36,6 +39,31 @@ class BattleTest {
 
         assertEquals("Too few cards in deck", battle.startBattle(player1, player2));
         assertEquals("Too few cards in deck", battle.startBattle(player2, player1));
+
+        Card card1 = new MonsterCard("Dragon", "Fire", 100, "ID1");
+        Card card2 = new MonsterCard("Dragon", "Fire", 100, "ID2");
+        Card card3 = new MonsterCard("Dragon", "Fire", 100, "ID3");
+        Card card4 = new MonsterCard("Dragon", "Fire", 100, "ID4");
+        List<Card> deck1 = new ArrayList<>();
+        deck1.add(card1);
+        deck1.add(card2);
+        deck1.add(card3);
+        deck1.add(card4);
+
+        Card card5 = new MonsterCard("Goblin", "Fire", 1, "ID5");
+        Card card6 = new MonsterCard("Goblin", "Fire", 1, "ID6");
+        Card card7 = new MonsterCard("Goblin", "Fire", 1, "ID7");
+        Card card8 = new MonsterCard("Goblin", "Fire", 1, "ID8");
+        List<Card> deck2 = new ArrayList<>();
+        deck2.add(card5);
+        deck2.add(card6);
+        deck2.add(card7);
+        deck2.add(card8);
+
+        player1.setDeck(deck1);
+        player2.setDeck(deck2);
+
+        assertEquals("A wins!", battle.startBattle(player1, player2));
     }
 
 }
