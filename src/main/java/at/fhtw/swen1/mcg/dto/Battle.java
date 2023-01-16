@@ -37,9 +37,9 @@ public class Battle {
     }
 
     public void pureMonsterBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){
-        System.out.printf("PlayerA: " + card1.getElementType() + " " + card1.getName() +
+        System.out.printf(player1.getUsername() + " " + card1.getElementType() + " " + card1.getName() +
                 " (" + card1.getDamage() + ")");
-        System.out.printf(" vs. PlayerB " + card2.getElementType() + " " + card2.getName() +
+        System.out.printf(player2.getUsername() + " " + card2.getElementType() + " " + card2.getName() +
                 " (" + card2.getDamage() + ")");
 
         if(specialRules(card1, card2)){
@@ -53,9 +53,9 @@ public class Battle {
     }
 
     public void pureMagicBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){
-        System.out.printf("PlayerA: " + card1.getElementType() + " " + card1.getName() +
+        System.out.printf(player1.getUsername() + " "+ card1.getElementType() + " " + card1.getName() +
                 " (" + card1.getDamage() + ")");
-        System.out.printf(" vs. PlayerB " + card2.getElementType() + " " + card2.getName() +
+        System.out.printf(player2.getUsername() + " " + card2.getElementType() + " " + card2.getName() +
                 " (" + card2.getDamage() + ")");
 
         double ratio = effectiveness(card1.getElementType(), card2.getElementType());
@@ -89,20 +89,20 @@ public class Battle {
     }
 
     public boolean specialRules(Card card1, Card card2){
-        if(((card1.getName() == "GOBLIN" && card1.getDamage() > card2.getDamage())
-                || (card2.getName() == "GOBLIN" && card2.getDamage() > card1.getDamage()))
-                && (card1.getName() == "DRAGON" || card2.getName() == "DRAGON")){
+        if(((card1.getName() == "Goblin" && card1.getDamage() > card2.getDamage())
+                || (card2.getName() == "Goblin" && card2.getDamage() > card1.getDamage()))
+                && (card1.getName() == "Dragon" || card2.getName() == "Dragon")){
             System.out.printf(" => Goblin too afraid of Dragon for fight");
             return true;
-        } else if (((card1.getName() == "ORK" && card1.getDamage() > card2.getDamage())
-                || (card2.getName() == "ORK") && card2.getDamage() > card1.getDamage())
-                && (card1.getName() == "WIZARD" || card2.getName() == "WIZARD")) {
+        } else if (((card1.getName() == "Ork" && card1.getDamage() > card2.getDamage())
+                || (card2.getName() == "Ork") && card2.getDamage() > card1.getDamage())
+                && (card1.getName() == "Wizard" || card2.getName() == "Wizard")) {
             System.out.printf(" => Ork controlled by Wizard and can´t attack");
             return true;
-        } else if (((card1.getName() == "DRAGON" && card1.getDamage() > card2.getDamage())
-                || (card2.getName() == "DRAGON") && card2.getDamage() > card1.getDamage())
-                && ((card1.getName() == "ELF" && card1.getElementType() == "FIRE")
-                || (card2.getName() == "ELF" && card2.getElementType() == "FIRE"))) {
+        } else if (((card1.getName() == "Dragon" && card1.getDamage() > card2.getDamage())
+                || (card2.getName() == "Dragon") && card2.getDamage() > card1.getDamage())
+                && ((card1.getName() == "Elf" && card1.getElementType() == "Fire")
+                || (card2.getName() == "Elf" && card2.getElementType() == "Fire"))) {
             System.out.printf(" => Elf can evade the dragon");
             return true;
         }
@@ -111,6 +111,7 @@ public class Battle {
 
     public double effectiveness(String type1, String type2){
         double ratio = (Card.types.valueOf(type2).ordinal() - Card.types.valueOf(type1).ordinal());
+
         if(ratio < 0){
             ratio = (3 + ratio);
         }
@@ -139,23 +140,16 @@ public class Battle {
         }
     }
 
-    /*public void startBattle(User player1){
+    public String startBattle(User player1, User player2){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         if(player1.getDeck().size() < 4){
             System.out.println("Your deck contains too few cards");
-            return;
+            return "Too few cards in deck";
         }
-        System.out.println("Login second Player");
-        User player2 = null;
-        while(player2 == null){
-            player2 = UserRepository.loginUser();
-        }
-
-        player2.deckSelect();
 
         if(player2.getDeck().size() < 4){
             System.out.println("second players deck is too small");
-            return;
+            return "Too few cards in deck";
         }
 
         int counter = 0;
@@ -164,8 +158,13 @@ public class Battle {
             counter++;
             if(counter > 99){
                 System.out.printf("Draw\n");
-                break;
+                return "DRAW";
             }
         }
-    }*/
+        if(player1.getDeck().isEmpty()){
+            return player2.getUsername() + "wins!";
+        }else {
+            return player1.getUsername() + "wins!";
+        }
+    }
 }

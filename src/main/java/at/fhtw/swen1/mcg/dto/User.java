@@ -50,6 +50,10 @@ public class User {
         return deck;
     }
 
+    public void setDeck(List<Card> deck){
+        this.deck = deck;
+    }
+
     public void deckSelect(){
         /*if(cardsInStack == null){
             System.out.println("You don't have any cards, buy some from the shop");

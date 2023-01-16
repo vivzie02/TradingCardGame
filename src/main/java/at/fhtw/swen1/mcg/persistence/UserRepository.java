@@ -5,6 +5,8 @@ import at.fhtw.swen1.mcg.dto.MonsterCard;
 import at.fhtw.swen1.mcg.dto.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public interface UserRepository {
@@ -186,5 +188,53 @@ public interface UserRepository {
         catch (SQLException ex){
             System.out.println(ex);
         }
+    }
+
+    static String getStats(User player){
+        String result = "";
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT coins, elo from users
+                WHERE userid=?
+            """ )
+        ){
+
+            statement.setInt(1, player.getId());
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()){
+                result = rs.getString(1) + " | " + rs.getString(2);
+            }
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return "Error when getting stats";
+        }
+
+        return result;
+    }
+
+    static String getScoreBoard(){
+        String board = "";
+
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT username, elo from users
+                ORDER BY elo DESC
+            """ )
+        ){
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()){
+                board = board + rs.getString(1) + " | " + rs.getString(2) + "\n";
+            }
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+            return "Error when getting scoreboard";
+        }
+
+        return board;
     }
 }

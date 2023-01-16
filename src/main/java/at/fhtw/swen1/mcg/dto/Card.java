@@ -3,7 +3,7 @@ package at.fhtw.swen1.mcg.dto;
 abstract public class Card {
 
     public enum types{
-        WATER, FIRE, REGULAR
+        Water, Fire, Normal
     }
     protected String cardID;
     protected String name;

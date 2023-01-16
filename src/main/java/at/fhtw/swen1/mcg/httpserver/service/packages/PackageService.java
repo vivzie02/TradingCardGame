@@ -40,7 +40,7 @@ public class PackageService implements Service {
                 newCard = new MagicCard(elementType, Float.valueOf(cardInfo.get("Damage").toString()), cardInfo.get("Id").toString());
             }
             else {
-                newCard = new MonsterCard(cardInfo.get("Name").toString(), elementType, Float.valueOf(cardInfo.get("Damage").toString()), cardInfo.get("Id").toString());
+                newCard = new MonsterCard(cardInfo.get("Name").toString().replace(elementType, ""), elementType, Float.valueOf(cardInfo.get("Damage").toString()), cardInfo.get("Id").toString());
             }
             cardsInPackage.add(newCard);
         }
