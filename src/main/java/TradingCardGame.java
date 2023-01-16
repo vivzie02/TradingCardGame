@@ -3,6 +3,7 @@ import at.fhtw.swen1.mcg.httpserver.service.cards.CardService;
 import at.fhtw.swen1.mcg.httpserver.service.deck.DeckService;
 import at.fhtw.swen1.mcg.httpserver.service.packages.PackageService;
 import at.fhtw.swen1.mcg.httpserver.service.sessions.SessionService;
+import at.fhtw.swen1.mcg.httpserver.service.stats.StatService;
 import at.fhtw.swen1.mcg.httpserver.service.transactions.TransactionService;
 import at.fhtw.swen1.mcg.httpserver.utils.Router;
 import at.fhtw.swen1.mcg.httpserver.service.users.UserService;
@@ -28,6 +29,7 @@ public class TradingCardGame {
         router.addService("/transactions", new TransactionService());
         router.addService("/cards", new CardService());
         router.addService("/deck", new DeckService());
+        router.addService("/stats", new StatService());
 
         return router;
     }

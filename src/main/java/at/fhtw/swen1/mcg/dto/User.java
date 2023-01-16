@@ -51,7 +51,7 @@ public class User {
     }
 
     public void deckSelect(){
-        if(cardsInStack == null){
+        /*if(cardsInStack == null){
             System.out.println("You don't have any cards, buy some from the shop");
             return;
         }
@@ -85,7 +85,7 @@ public class User {
         for (Card card : deck) {
             System.out.print(id + " | ");
             System.out.println(card.getName() + " | " + card.getElementType() + " | " + card.getDamage());
-        }
+        }*/
     }
 
     public void addToStack(Card addedCard){

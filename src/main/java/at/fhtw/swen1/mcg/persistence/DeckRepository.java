@@ -11,7 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface DeckRepository {
-    static void createDeck(User player1, List<Card> deck){
+    static void createDeck(List<String> cards, User player){
+        try(Connection connection = DatabaseFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement("""
+                DELETE FROM decks
+                WHERE user_id=?
+            """ )
+        ){
+
+            statement.setInt(1, player.getId());
+            statement.execute();
+        }
+        catch (SQLException ex){
+            System.out.println(ex);
+        }
+
+
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO decks
@@ -20,11 +35,11 @@ public interface DeckRepository {
             """ )
         ){
 
-            statement.setInt(1, player1.getId());
-            statement.setString(2, deck.get(0).getCardID());
-            statement.setString(3, deck.get(1).getCardID());
-            statement.setString(4, deck.get(2).getCardID());
-            statement.setString(5, deck.get(3).getCardID());
+            statement.setInt(1, player.getId());
+            statement.setString(2, cards.get(0));
+            statement.setString(3, cards.get(1));
+            statement.setString(4, cards.get(2));
+            statement.setString(5, cards.get(3));
             statement.execute();
 
         }
@@ -79,17 +94,14 @@ public interface DeckRepository {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()){
-                for(int i = 0; i < 4; i++){
-                    if(rs.getString(3).contains("Spell")){
-                        addedCard = new MagicCard(rs.getString(4), rs.getFloat(5), rs.getString(1));
-                    }
-                    else{
-                        addedCard = new MonsterCard(rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(1));
-                    }
-                    deck.add(addedCard);
+                if(rs.getString(3).contains("Spell")){
+                    addedCard = new MagicCard(rs.getString(4), rs.getFloat(5), rs.getString(1));
                 }
+                else{
+                    addedCard = new MonsterCard(rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(1));
+                }
+                deck.add(addedCard);
             }
-
         }
         catch (SQLException ex){
             System.out.println(ex);
