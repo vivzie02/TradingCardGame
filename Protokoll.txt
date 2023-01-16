@@ -1,0 +1,9 @@
+Früh begonnen/Battle logic und der meiste Rest war fertig 
+--> danach waren Winterferien und ich wollte den HTTP Server integrieren, wurde dann aber mit der Grippe krank und musste es deshalb auf Jänner verschieben
+--> HTTP Server war dann relativ stressig, deshalb auch keine Trade funktion
+
+Jede Funktion die per Unit Test getestet werden konnte hat einen eigenen Unit Test mit ausreichend Tests --> mehr waren mit der Anzahl der Funktionen nicht möglich
+
+Oktober/November --> basic functionality
+Dezember --> Database
+Jänner --> HTTP Server 
