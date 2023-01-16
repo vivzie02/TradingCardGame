@@ -37,10 +37,8 @@ public class BattleService implements Service {
         player2.setDeck(decks);
 
         Battle battle = new Battle();
-        battle.startBattle(player1, player2);
 
-
-        String response = "test";
+        String response = battle.startBattle(player1, player2);;
 
 
         return new Response(HttpStatus.OK,
