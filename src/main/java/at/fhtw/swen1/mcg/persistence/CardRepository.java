@@ -49,7 +49,7 @@ public interface CardRepository {
         return player;
     }
 
-    static void saveCard(Card newCard, User player1){
+    static boolean saveCard(Card newCard, User player1){
         System.out.println(newCard.getName() + " | " + newCard.getElementType() + " | " + newCard.getDamage());
 
         try(Connection connection = DatabaseFactory.getConnection();
@@ -71,18 +71,23 @@ public interface CardRepository {
             }
             statement.execute();
 
+            return true;
+
         }
         catch (SQLException ex){
             System.out.println(ex);
+            return false;
         }
     }
 
     static int getNumberOfCards(User player1){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
-                SELECT * FROM cards
+                SELECT * FROM cards 
+                WHERE playerid=?
             """ )
         ){
+            statement.setInt(1, player1.getId());
             ResultSet rs = statement.executeQuery();
 
             int counter = 0;

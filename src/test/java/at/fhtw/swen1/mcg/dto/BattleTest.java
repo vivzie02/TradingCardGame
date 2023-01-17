@@ -66,4 +66,16 @@ class BattleTest {
         assertEquals("A wins!", battle.startBattle(player1, player2));
     }
 
+    @org.junit.jupiter.api.Test
+    void pureMonsterBattle() {
+        Battle battle = new Battle();
+        User player1 = new User("Test", 20, 1, 100);
+        User player2 = new User("Tes2", 20, 1, 100);
+
+        Card card1 = new MonsterCard("Goblin", "Water", 100, "testID");
+        Card card2 = new MonsterCard("Dragon", "Water", 10, "testID");
+
+        assertTrue(battle.pureMonsterBattle(player1, player2, card1, card2, 0, 0));
+    }
+
 }

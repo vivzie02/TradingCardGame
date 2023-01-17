@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface DeckRepository {
-    static void createDeck(List<String> cards, User player){
+    static int createDeck(List<String> cards, User player){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 DELETE FROM decks
@@ -42,9 +42,12 @@ public interface DeckRepository {
             statement.setString(5, cards.get(3));
             statement.execute();
 
+            return 0;
+
         }
         catch (SQLException ex){
             System.out.println(ex);
+            return 1;
         }
     }
 

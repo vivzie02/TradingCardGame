@@ -36,20 +36,22 @@ public class Battle {
         return true;
     }
 
-    public void pureMonsterBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){
+    public boolean pureMonsterBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){
         System.out.printf(player1.getUsername() + " " + card1.getElementType() + " " + card1.getName() +
                 " (" + card1.getDamage() + ")");
         System.out.printf(player2.getUsername() + " " + card2.getElementType() + " " + card2.getName() +
                 " (" + card2.getDamage() + ")");
 
         if(specialRules(card1, card2)){
-            return;
+            return true;
         }
 
         double damage1 = card1.getDamage();
         double damage2 = card2.getDamage();
 
         printFight(damage1, damage2, card1, card2, player1, player2, rand1, rand2);
+
+        return false;
     }
 
     public void pureMagicBattle(User player1, User player2, Card card1, Card card2, int rand1, int rand2){

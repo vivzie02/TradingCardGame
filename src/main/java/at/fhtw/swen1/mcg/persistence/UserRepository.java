@@ -156,38 +156,41 @@ public interface UserRepository {
         return 0;
     }
 
-    static void updateElo(User winner, User loser){
+    static int updateElo(User winner, User loser){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
                 SET elo=?
-                WHERE user_id=?
+                WHERE username=?
             """ )
         ){
 
             statement.setInt(1, winner.getElo());
-            statement.setInt(2, winner.getId());
+            statement.setString(2, winner.getUsername());
             statement.executeUpdate();
         }
         catch (SQLException ex){
             System.out.println(ex);
+            return -1;
         }
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
                 SET elo=?
-                WHERE user_id=?
+                WHERE username=?
             """ )
         ){
 
             statement.setInt(1, loser.getElo());
-            statement.setInt(2, loser.getId());
+            statement.setString(2, loser.getUsername());
             statement.executeUpdate();
         }
         catch (SQLException ex){
             System.out.println(ex);
+            return -1;
         }
+        return 0;
     }
 
     static String getStats(User player){
