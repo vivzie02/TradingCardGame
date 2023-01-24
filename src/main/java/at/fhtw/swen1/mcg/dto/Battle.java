@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class Battle {
     public boolean fight(User player1, User player2){
+        UserRepository userRepository = new UserRepository();
+
         int rand1 = ((int) (Math.random() * player1.getDeck().size()));
         int rand2 = ((int) (Math.random() * player2.getDeck().size()));
         Card card1 = player1.getDeck().get(rand1);
@@ -23,14 +25,14 @@ public class Battle {
             System.out.printf("\n" + player2.getUsername() + " wins\n");
             player1.setElo(10);
             player2.setElo(-5);
-            UserRepository.updateElo(player2, player1);
+            userRepository.updateElo(player2, player1);
             return false;
         }
         if(player2.getDeck().isEmpty()){
             System.out.printf("\n" + player1.getUsername() + " wins\n");
             player1.setElo(-5);
             player2.setElo(10);
-            UserRepository.updateElo(player1, player2);
+            userRepository.updateElo(player1, player2);
             return false;
         }
         return true;

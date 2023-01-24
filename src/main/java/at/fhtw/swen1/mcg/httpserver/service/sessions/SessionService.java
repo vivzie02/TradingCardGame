@@ -13,11 +13,13 @@ import org.json.JSONObject;
 public class SessionService implements Service {
     @Override
     public Response handleRequest(Request request){
+        UserRepository userRepository = new UserRepository();
+
         JSONObject body = UserData.getUserData(request.getBody());
         String username = body.get("Username").toString();
         String password = body.get("Password").toString();
 
-        User result = UserRepository.loginUser(username, password);
+        User result = userRepository.loginUser(username, password);
         String response;
 
         if(result == null){

@@ -12,11 +12,13 @@ import at.fhtw.swen1.mcg.persistence.UserRepository;
 public class StatService implements Service {
     @Override
     public Response handleRequest(Request request){
+        UserRepository userRepository = new UserRepository();
+
         String response = "";
 
         User player = AuthorizationService.authorizeUser(request);
 
-        response = UserRepository.getStats(player);
+        response = userRepository.getStats(player);
 
         return new Response(HttpStatus.OK,
                 ContentType.PLAIN_TEXT,

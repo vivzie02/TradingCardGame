@@ -14,9 +14,10 @@ import org.json.JSONObject;
 public class ScoreService implements Service {
     @Override
     public Response handleRequest(Request request){
+        UserRepository userRepository = new UserRepository();
         User player = AuthorizationService.authorizeUser(request);
 
-        String response = UserRepository.getScoreBoard();
+        String response = userRepository.getScoreBoard();
 
         return new Response(HttpStatus.OK,
                 ContentType.PLAIN_TEXT,

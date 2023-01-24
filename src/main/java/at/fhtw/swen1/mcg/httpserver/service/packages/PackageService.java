@@ -19,6 +19,7 @@ import java.util.List;
 public class PackageService implements Service {
     @Override
     public Response handleRequest(Request request) {
+        CardRepository cardRepository = new CardRepository();
         JSONArray body = JsonArrayService.getArrayData(request.getBody());
 
         List<Card> cardsInPackage = new ArrayList<>();
@@ -45,7 +46,7 @@ public class PackageService implements Service {
             cardsInPackage.add(newCard);
         }
 
-        int result = CardRepository.createPackage(cardsInPackage);
+        int result = cardRepository.createPackage(cardsInPackage);
         String response;
 
         if(result == 0){

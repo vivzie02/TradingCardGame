@@ -17,6 +17,10 @@ import java.util.List;
 public class UserService implements Service {
     @Override
     public Response handleRequest(Request request){
+        UserRepository userRepository = new UserRepository();
+
+        UserDataRepository userDataRepository = new UserDataRepository();
+
         JSONObject body;
         List<String> userData = new ArrayList<>();
         String response = "";
@@ -29,7 +33,7 @@ public class UserService implements Service {
                         "Wrong authentication token");
             }
             if(request.getMethod().toString().equals("GET")){
-                userData = UserDataRepository.getUserData(player);
+                userData = userDataRepository.getUserData(player);
                 for (String data: userData
                      ) {
                     response = response + data + " ";
@@ -40,7 +44,7 @@ public class UserService implements Service {
                         response);
             } else if (request.getMethod().toString().equals("PUT")) {
                 body = UserData.getUserData(request.getBody());
-                response = UserDataRepository.editUserData(player, body);
+                response = userDataRepository.editUserData(player, body);
                 return new Response(HttpStatus.OK,
                         ContentType.PLAIN_TEXT,
                         response);
@@ -56,7 +60,7 @@ public class UserService implements Service {
         String username = body.get("Username").toString();
         String password = body.get("Password").toString();
 
-        int result = UserRepository.createUser(username, password);
+        int result = userRepository.createUser(username, password);
 
         if(result == 0){
             response = "User created successfully";

@@ -19,6 +19,9 @@ import java.util.List;
 public class BattleService implements Service {
     @Override
     public Response handleRequest(Request request){
+        DeckRepository deckRepository = new DeckRepository();
+        UserRepository userRepository = new UserRepository();
+
         JSONObject body = UserData.getUserData(request.getBody());
 
         if(!(request.getMethod().toString().equals("POST"))){
@@ -28,12 +31,12 @@ public class BattleService implements Service {
         }
 
         User player1 = AuthorizationService.authorizeUser(request);
-        User player2 = UserRepository.loginWithToken(body.get("SecondPlayerToken").toString());
+        User player2 = userRepository.loginWithToken(body.get("SecondPlayerToken").toString());
 
-        List<Card> decks = DeckRepository.getUsersDeck(player1);
+        List<Card> decks = deckRepository.getUsersDeck(player1);
         player1.setDeck(decks);
 
-        decks = DeckRepository.getUsersDeck(player2);
+        decks = deckRepository.getUsersDeck(player2);
         player2.setDeck(decks);
 
         Battle battle = new Battle();

@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface UserDataRepository {
-    static String editUserData(User player, JSONObject body){
+public class UserDataRepository {
+    public String editUserData(User player, JSONObject body){
         List<String> userData = new ArrayList<>(); // Name + Bio + Image
 
         try(Connection connection = DatabaseFactory.getConnection();
@@ -54,7 +54,7 @@ public interface UserDataRepository {
         return "User data updated successfully";
     }
 
-    static List<String> getUserData(User player){
+    public List<String> getUserData(User player){
         List<String> userData = new ArrayList<>();
 
         try(Connection connection = DatabaseFactory.getConnection();

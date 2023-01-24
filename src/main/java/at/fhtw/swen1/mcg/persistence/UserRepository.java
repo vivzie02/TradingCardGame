@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public interface UserRepository {
-    static int createUser(String username, String password){
+public class UserRepository {
+    public int createUser(String username, String password){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM users
@@ -60,8 +60,9 @@ public interface UserRepository {
         }
     }
 
-    static User loginUser(String username, String password){
+    public User loginUser(String username, String password){
         User player;
+        CardRepository cardRepository = new CardRepository();
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -82,7 +83,7 @@ public interface UserRepository {
                     int playerID = rs.getInt(1);
                     int elo = rs.getInt(6);
                     player = new User(username, coins, playerID, elo);
-                    player = CardRepository.getPlayersCards(username, playerID, player);
+                    player = cardRepository.getPlayersCards(username, playerID, player);
                     return player;
                 }
             }
@@ -96,8 +97,9 @@ public interface UserRepository {
         return null;
     }
 
-    static User loginWithToken(String token){
+    public User loginWithToken(String token){
         User player;
+        CardRepository cardRepository = new CardRepository();
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -115,7 +117,7 @@ public interface UserRepository {
                 int playerID = rs.getInt(1);
                 int elo = rs.getInt(6);
                 player = new User(username, coins, playerID, elo);
-                player = CardRepository.getPlayersCards(username, playerID, player);
+                player = cardRepository.getPlayersCards(username, playerID, player);
                 return player;
             }
 
@@ -126,7 +128,8 @@ public interface UserRepository {
         }
         return null;
     }
-    static int shop(User player1){
+    public int shop(User player1){
+        CardRepository cardRepository = new CardRepository();
 
         if(player1.getCoins() < 5){
             System.out.println("Not enough coins");
@@ -151,12 +154,12 @@ public interface UserRepository {
             return 1;
         }
 
-        CardRepository.assignPackages(player1);
+        cardRepository.assignPackages(player1);
 
         return 0;
     }
 
-    static int updateElo(User winner, User loser){
+    public int updateElo(User winner, User loser){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 UPDATE users
@@ -193,7 +196,7 @@ public interface UserRepository {
         return 0;
     }
 
-    static String getStats(User player){
+    public String getStats(User player){
         String result = "";
 
         try(Connection connection = DatabaseFactory.getConnection();
@@ -218,7 +221,7 @@ public interface UserRepository {
         return result;
     }
 
-    static String getScoreBoard(){
+    public String getScoreBoard(){
         String board = "";
 
         try(Connection connection = DatabaseFactory.getConnection();

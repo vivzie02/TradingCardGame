@@ -10,8 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface DeckRepository {
-    static int createDeck(List<String> cards, User player){
+public class DeckRepository {
+    public int createDeck(List<String> cards, User player){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 DELETE FROM decks
@@ -51,7 +51,7 @@ public interface DeckRepository {
         }
     }
 
-    static List<Card> getUsersDeck(User player){
+    public List<Card> getUsersDeck(User player){
         List<String> cardids = new ArrayList<>();
         List<Card> deck = new ArrayList<>();
         Card addedCard;

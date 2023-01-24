@@ -15,6 +15,8 @@ import org.json.JSONObject;
 public class TransactionService implements Service {
     @Override
     public Response handleRequest(Request request){
+        UserRepository userRepository = new UserRepository();
+
         if(!request.getPathParts().get(1).equals("packages")){
             return new Response(HttpStatus.OK,
                     ContentType.PLAIN_TEXT,
@@ -23,7 +25,7 @@ public class TransactionService implements Service {
 
         User player = AuthorizationService.authorizeUser(request);
 
-        int result = UserRepository.shop(player);
+        int result = userRepository.shop(player);
         String response;
 
         if(result == 0){

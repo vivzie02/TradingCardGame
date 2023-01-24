@@ -13,7 +13,9 @@ class UserRepositoryTest {
 
     @Test
     void createUser() {
-        assertEquals(0, UserRepository.createUser("Vivian", "Test123"));
+        UserRepository userRepository = new UserRepository();
+
+        assertEquals(0, userRepository.createUser("Vivian", "Test123"));
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 DELETE FROM users
@@ -30,8 +32,10 @@ class UserRepositoryTest {
 
     @Test
     void loginUser() {
-        UserRepository.createUser("Vivian", "Test123");
-        assertEquals("Vivian", UserRepository.loginUser("Vivian", "Test123").getUsername());
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.createUser("Vivian", "Test123");
+        assertEquals("Vivian", userRepository.loginUser("Vivian", "Test123").getUsername());
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -49,8 +53,10 @@ class UserRepositoryTest {
 
     @Test
     void loginWithToken() {
-        UserRepository.createUser("Vivian", "Test123");
-        assertEquals("Vivian", UserRepository.loginWithToken("Basic Vivian-mtcgToken").getUsername());
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.createUser("Vivian", "Test123");
+        assertEquals("Vivian", userRepository.loginWithToken("Basic Vivian-mtcgToken").getUsername());
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -68,19 +74,19 @@ class UserRepositoryTest {
 
     @Test
     void updateElo() {
-        UserRepository.createUser("Winner", "Test123");
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.createUser("Winner", "Test123");
         User player2 = new User("Winner", 20, -2, 110);
         User player1 = new User("Vivian", 20, -1, 90);
 
-        assertEquals(0, UserRepository.updateElo(player2, player1));
+        assertEquals(0, userRepository.updateElo(player2, player1));
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 DELETE FROM users
-                WHERE username=?
             """ )
         ){
-            statement.setString(1, player2.getUsername());
             statement.execute();
         }
         catch (SQLException ex){
@@ -90,9 +96,11 @@ class UserRepositoryTest {
 
     @Test
     void getStats() {
-        UserRepository.createUser("Vivian", "Test123");
-        User player = UserRepository.loginUser("Vivian", "Test123");
-        assertEquals("20 | 100", UserRepository.getStats(player));
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.createUser("Vivian", "Test123");
+        User player = userRepository.loginUser("Vivian", "Test123");
+        assertEquals("20 | 100", userRepository.getStats(player));
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
@@ -110,8 +118,10 @@ class UserRepositoryTest {
 
     @Test
     void getScoreBoard() {
-        UserRepository.createUser("Vivian", "Test123");
-        assertEquals("Vivian | 100\n", UserRepository.getScoreBoard());
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.createUser("Vivian", "Test123");
+        assertEquals("Vivian | 100\n", userRepository.getScoreBoard());
 
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""

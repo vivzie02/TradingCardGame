@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public interface CardRepository {
-    static User getPlayersCards(String username, int playerID, User player){
+public class CardRepository {
+    public User getPlayersCards(String username, int playerID, User player){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM cards
@@ -49,7 +49,7 @@ public interface CardRepository {
         return player;
     }
 
-    static boolean saveCard(Card newCard, User player1){
+    public boolean saveCard(Card newCard, User player1){
         System.out.println(newCard.getName() + " | " + newCard.getElementType() + " | " + newCard.getDamage());
 
         try(Connection connection = DatabaseFactory.getConnection();
@@ -80,7 +80,7 @@ public interface CardRepository {
         }
     }
 
-    static int getNumberOfCards(User player1){
+    public int getNumberOfCards(User player1){
         try(Connection connection = DatabaseFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM cards 
@@ -104,7 +104,7 @@ public interface CardRepository {
         }
     }
 
-    static int createPackage(List<Card> cardsInPackage){
+    public int createPackage(List<Card> cardsInPackage){
         User admin = new User("admin", 1000, 0, 1000);
         List<String> cardIds = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public interface CardRepository {
         return 0;
     }
 
-    static int assignPackages(User player){
+    public int assignPackages(User player){
         int id = 0;
         //get an available package
 

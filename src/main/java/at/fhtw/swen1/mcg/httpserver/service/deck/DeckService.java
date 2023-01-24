@@ -13,16 +13,19 @@ import at.fhtw.swen1.mcg.persistence.DeckRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.lang.model.type.DeclaredType;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeckService implements Service {
     @Override
     public Response handleRequest(Request request){
+        DeckRepository deckRepository = new DeckRepository();
+
         if(request.getMethod().toString().equals("GET")){
             User player = AuthorizationService.authorizeUser(request);
 
-            List<Card> deck = DeckRepository.getUsersDeck(player);
+            List<Card> deck = deckRepository.getUsersDeck(player);
 
             String response = "";
 
@@ -53,7 +56,7 @@ public class DeckService implements Service {
                 cardids.add(cardInfo);
             }
 
-            DeckRepository.createDeck(cardids, player);
+            deckRepository.createDeck(cardids, player);
 
             return new Response(HttpStatus.OK,
                     ContentType.PLAIN_TEXT,

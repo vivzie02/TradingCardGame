@@ -6,7 +6,8 @@ import at.fhtw.swen1.mcg.persistence.UserRepository;
 
 public class AuthorizationService {
     public static User authorizeUser(Request request){
+        UserRepository userRepository = new UserRepository();
         String userToken = request.getHeaderMap().getHeader("Authorization");
-        return UserRepository.loginWithToken(userToken);
+        return userRepository.loginWithToken(userToken);
     }
 }
